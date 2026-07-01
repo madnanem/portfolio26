@@ -1,34 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
-import Admin from './components/Admin';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'admin'
-
   return (
     <div className="app-layout">
-      {/* Header / Navigation */}
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Navbar />
 
-      {/* Main Pages Content */}
       <main className="main-content">
-        {activeTab === 'home' ? (
-          <>
-            <Hero setActiveTab={setActiveTab} />
-            <About />
-            <Projects />
-            <Contact />
-          </>
-        ) : (
-          <Admin />
-        )}
+        <Hero />
+        <About />
+        <Projects />
+        <Contact />
       </main>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="container footer-container">
           <p className="footer-copyright">
@@ -37,7 +25,7 @@ export default function App() {
           <div className="footer-links">
             <span className="footer-link-tag">Premium Portfolio</span>
             <span className="footer-divider">•</span>
-            <span className="footer-link-tag">MERN Stack Architecture</span>
+            <span className="footer-link-tag">Frontend-Only Experience</span>
           </div>
         </div>
       </footer>

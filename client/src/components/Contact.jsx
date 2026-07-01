@@ -13,8 +13,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Core Form Validation
+
     if (!formData.name.trim()) {
       setStatus({ type: 'error', message: 'Name field is required.' });
       return;
@@ -31,32 +30,35 @@ export default function Contact() {
 
     try {
       setLoading(true);
-      const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-      const response = await fetch(`${baseUrl}/api/contact`, {
+      const response = await fetch('https://formsubmit.co/ajax/saadnane859@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json'
+        },
+        body: new URLSearchParams({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim() || 'Portfolio Contact',
+          message: formData.message.trim(),
+          _captcha: 'false',
+          _template: 'table',
+          _subject: `New portfolio message from ${formData.name.trim()}`
+        }).toString()
       });
-      const data = await response.json();
 
-      if (data.success) {
-        setStatus({ type: 'success', message: 'Thank you! Your message has been sent successfully.' });
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setStatus({ type: 'error', message: data.error || 'Failed to send message. Please try again.' });
+      if (!response.ok) {
+        throw new Error('Failed to send message');
       }
+
+      setStatus({ type: 'success', message: 'Your message has been sent successfully.' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
-      console.warn('Backend API offline. Simulating contact message delivery.', err);
-      // Fallback: simulate successful email delivery for static frontend preview
-      setTimeout(() => {
-        setStatus({ type: 'success', message: 'Message received! (Static mode simulation: your message was logged in development console).' });
-        console.log('Static Message Data:', formData);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setLoading(false);
-      }, 1000);
-      return; // Skip standard loading state toggle which is handled inside setTimeout
+      console.error('Unable to send contact form message.', err);
+      setStatus({ type: 'error', message: 'We could not deliver the message right now. Please email me directly at saadnane859@gmail.com.' });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -89,8 +91,8 @@ export default function Contact() {
               <div className="info-item">
                 <div className="info-icon"><MapPin size={20} /></div>
                 <div>
-                  <span className="info-label">WhatsApp</span>
-                  <span className="info-text">+213 669 451 414</span>
+                  <span className="info-label">Address</span>
+                  <span className="info-text">Algeria</span>
                 </div>
               </div>
             </div>

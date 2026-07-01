@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ExternalLink, Github, Eye, X, Laptop } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, Github, Eye, X } from 'lucide-react';
 
 const LOCAL_FALLBACK_PROJECTS = [
   {
@@ -53,34 +53,9 @@ const LOCAL_FALLBACK_PROJECTS = [
 ];
 
 export default function Projects() {
-  const [projects, setProjects] = useState([]);
+  const [projects] = useState(LOCAL_FALLBACK_PROJECTS);
   const [filter, setFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        // Connect to Express backend running on local port 5000 (or absolute path relative to window location in production)
-        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        const response = await fetch(`${baseUrl}/api/projects`);
-        const json = await response.json();
-        
-        if (json.success && json.data && json.data.length > 0) {
-          setProjects(json.data);
-        } else {
-          setProjects(LOCAL_FALLBACK_PROJECTS);
-        }
-      } catch (err) {
-        console.warn('Backend API unavailable. Falling back to local static project seeds.', err);
-        setProjects(LOCAL_FALLBACK_PROJECTS);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
 
   const filteredProjects = filter === 'All' 
     ? projects 
@@ -109,18 +84,12 @@ export default function Projects() {
           ))}
         </div>
 
-        {loading ? (
-          <div className="projects-loading">
-            <span className="spinner"></span>
-            <p>Loading projects...</p>
-          </div>
-        ) : (
-          <div className="grid-3 projects-grid">
-            {filteredProjects.map((project) => (
-              <div 
-                className="glass-card project-card animate-fade-in" 
-                key={project._id || project.id}
-              >
+        <div className="grid-3 projects-grid">
+          {filteredProjects.map((project) => (
+            <div 
+              className="glass-card project-card animate-fade-in" 
+              key={project._id || project.id}
+            >
                 <div className="project-image-wrapper">
                   <img src={project.image} alt={project.title} className="project-image" />
                   <div className="project-overlay">
@@ -170,9 +139,8 @@ export default function Projects() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+          ))}
+        </div>
       </div>
 
       {/* Project Details Modal */}

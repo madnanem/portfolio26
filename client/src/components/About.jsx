@@ -7,9 +7,6 @@ export default function About() {
   const skills = [
     // Frontend
     { name: 'React.js', category: 'frontend', level: 'Expert', icon: <Layout size={16} /> },
-    { name: 'Express.js', category: 'backend', level: 'Expert', icon: <Layout size={16} /> },
-    { name: 'Node.js', category: 'backend', level: 'Expert', icon: <Layout size={16} /> },
-
     { name: 'Flutter & Dart', category: 'frontend', level: 'Expert', icon: <Layout size={16} /> },
     { name: 'HTML5 & CSS3', category: 'frontend', level: 'Expert', icon: <Layout size={16} /> },
     { name: 'JavaScript', category: 'frontend', level: 'Expert', icon: <Layout size={16} /> },
