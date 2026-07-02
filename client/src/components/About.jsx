@@ -26,7 +26,7 @@ export default function About() {
 
   const timeline = [
     {
-      year: '2023 - Present',
+      year: '2021 - Present',
       role: 'Computer Science Student',
       company: 'USTHB Algiers',
       description: 'Studying advanced algorithmics, databases, system architecture, and network protocols. Applying programming concepts in academic team tasks.'
